@@ -160,9 +160,17 @@ One of the main selling points of Emacs! no Emacs distribution is complete witho
   (use-package htmlize
     :ensure t)
 
-  (use-package org-bullets
-    :config
-    (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+  (use-package org-superstar
+    :ensure t
+    :init
+    (add-hook 'org-mode-hook '(lambda () (org-superstar-mode))))
+
+  ;; Code in current Window
+  (setq org-src-window-setup 'current-window)
+
+  ;; C-c C-,  -- adds language selections 
+  (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
+  (add-to-list 'org-structure-template-alist '("hs" . "src haskell"))
 #+END_SRC
 * Eshell
 ** Why Eshell?
@@ -331,7 +339,7 @@ The frontend of Witchmacs; without this there'd be no Marisa in your Emacs start
             ((,nil
               "Witchmacs on github"
               "Open Witchmacs' github page on your browser"
-              (lambda (&rest _) (browse-url "https://github.com/snackon/witchmacs"))
+              (lambda (&rest _) (browse-url "https://github.com/RVMIA/witchmacs"))
               'default)
              (nil
               "Witchmacs crash course"
@@ -661,3 +669,26 @@ I use meghanada to provide very neat autocompletion when editing Java files. I u
     (setq meghanada-java-path "java")
     (setq meghanada-maven-path "mvn"))
 #+END_SRC
+
+** Haskell
+*** Description
+Haskell-mode https://github.com/haskell/haskell-mode
+*** Code
+#+BEGIN_SRC emacs-lisp
+    (use-package haskell-mode
+      :ensure t
+      :bind ("<f8>" . haskell-navigate-imports))
+#+END_SRC
+** Rust
+*** Description
+rust-mode https://github.com/rust-lang/rust-mode
+*** Code
+#+begin_src emacs-lisp
+    (use-package rust-mode
+      :ensure t
+      :config
+      (add-hook 'rust-mode-hook
+                (lambda ()
+                  (setq indent-tabs-mode nil)
+                  (setq rust-format-on-save t))))
+#+end_src
