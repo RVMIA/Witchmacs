@@ -35,6 +35,7 @@
 (defun config-reload ()
   (interactive)
   (org-babel-load-file (expand-file-name "~/.emacs.d/config.org")))
+(keymap-global-set "C-c r" 'config-reload)
 (config-reload)
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
