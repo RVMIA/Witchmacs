@@ -37,16 +37,30 @@
   (org-babel-load-file (expand-file-name "~/.emacs.d/config.org")))
 (keymap-global-set "C-c r" 'config-reload)
 (config-reload)
+
+;; Opens config.org for editing
+(defun config-open ()
+  (interactive)
+  (find-file "~/.emacs.d/config.org"))
+(keymap-global-set "C-c e" 'config-open)
+
+;; Opens dashboard upon new emacsclient
+
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(evil-undo-system 'undo-redo)
+ '(haskell-interactive-popup-errors nil)
  '(package-selected-packages
-   '(haskell-mode org-superstar org-superstar-mode org-bullets meghanada company-irony company-c-headers yasnippet-snippets yasnippet company magit treemacs-icons-dired treemacs-evil treemacs undo-tree page-break-lines async ido-vertical-mode switch-window avy beacon evil swiper which-key dashboard spaceline diminish auto-package-update htmlize)))
+   '(lsp-mode rustic haskell-mode org-superstar org-superstar-mode org-bullets meghanada company-irony company-c-headers company magit treemacs-icons-dired treemacs-evil treemacs undo-tree page-break-lines async ido-vertical-mode switch-window avy beacon evil swiper which-key dashboard spaceline diminish auto-package-update htmlize)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :extend nil :stipple nil :background "#262626" :foreground "#F8F8F2" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight regular :height 150 :width normal :foundry "1ASC" :family "Iosevka")))))
+ '(default ((t (:inherit nil :extend nil :stipple nil :background "#262626" :foreground "#F8F8F2" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight regular :height 150 :width normal :foundry "1ASC" :family "Iosevka"))))
+ '(flymake-error ((t (:underline "red"))))
+ '(haskell-error-face ((t (:underline "#dc322f")))))
