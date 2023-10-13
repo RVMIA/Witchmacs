@@ -52,10 +52,12 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(evil-undo-system 'undo-redo)
+ '(evil-undo-system 'undo-tree)
+ '(global-undo-tree-mode t)
  '(haskell-interactive-popup-errors nil)
  '(package-selected-packages
-   '(lsp-mode rustic haskell-mode org-superstar org-superstar-mode org-bullets meghanada company-irony company-c-headers company magit treemacs-icons-dired treemacs-evil treemacs undo-tree page-break-lines async ido-vertical-mode switch-window avy beacon evil swiper which-key dashboard spaceline diminish auto-package-update htmlize)))
+   '(evil-collection lsp-mode rustic haskell-mode org-superstar org-superstar-mode org-bullets meghanada company-irony company-c-headers company magit treemacs-icons-dired treemacs-evil treemacs undo-tree page-break-lines async ido-vertical-mode switch-window avy beacon evil swiper which-key dashboard spaceline diminish auto-package-update htmlize))
+ '(undo-tree-auto-save-history nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

@@ -3,7 +3,12 @@
 #+LANGUAGE: en
 #+OPTIONS: num:nil
 The cutest Emacs distribution
+* Custom Keybindings
+** Use IBuffer instead of Buffer Menu
+#+begin_src emacs-lisp
+  (keymap-global-set "C-x C-b" 'ibuffer)
 
+#+end_src
 * QoL section
 Minor quality-of-life modifications for a more pleasant Emacs experience
 ** Enable line numbers
@@ -51,6 +56,7 @@ Emacs breaks certain modes when it has line-numbers-mode enabled, (like docview 
   (setq c-basic-offset tab-width)
   (setq-default electric-indent-inhibit t)
   (setq-default indent-tabs-mode t)
+  (setq tab-width 8)
   (setq backward-delete-char-untabify-method 'nil)
 #+END_SRC
 ** Enable prettify symbols mode
@@ -262,69 +268,69 @@ I prefer powerline over spaceline, but the default powerline themes don't work f
 The frontend of Witchmacs; without this there'd be no Marisa in your Emacs startup screen
 *** Code
 #+BEGIN_SRC emacs-lisp
-    (use-package dashboard
-      :ensure t
-      :defer nil
-      :preface
-      (defun update-config ()
-        "Update Witchmacs to the latest version."
-        (interactive)
-        (let ((dir (expand-file-name user-emacs-directory)))
-          (if (file-exists-p dir)
-              (progn
-                (message "Witchmacs is updating!")
-                (cd dir)
-                (shell-command "git pull")
-                (message "Update finished. Switch to the messages buffer to see changes and then restart Emacs"))
-            (message "\"%s\" doesn't exist." dir))))
+  (use-package dashboard
+    :ensure t
+    :defer nil
+    :preface
+    (defun update-config ()
+      "Update Witchmacs to the latest version."
+      (interactive)
+      (let ((dir (expand-file-name user-emacs-directory)))
+        (if (file-exists-p dir)
+            (progn
+              (message "Witchmacs is updating!")
+              (cd dir)
+              (shell-command "git pull")
+              (message "Update finished. Switch to the messages buffer to see changes and then restart Emacs"))
+          (message "\"%s\" doesn't exist." dir))))
 
-      (defun create-scratch-buffer ()
-        "Create a scratch buffer"
-        (interactive)
-        (switch-to-buffer (get-buffer-create "*scratch*"))
-        (lisp-interaction-mode))
-      :config
-      (dashboard-setup-startup-hook)
-      (setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
-      (setq dashboard-items '((recents . 5)))
-      (setq dashboard-banner-logo-title "W I T C H M A C S - The cutest Emacs distribution!")
-      (setq dashboard-startup-banner "~/.emacs.d/marivector.png")
-      (setq dashboard-center-content t)
-      (setq dashboard-show-shortcuts nil)
-      (setq dashboard-set-init-info t)
-      (setq dashboard-init-info (format "%d packages loaded in %s"
-                                        (length package-activated-list) (emacs-init-time)))
-      (setq dashboard-set-footer nil)
-      (setq dashboard-set-navigator t)
-      (setq dashboard-navigator-buttons
-            `(;; line1
-              ((,nil
-                "Witchmacs on github"
-                "Open Witchmacs' github page on your browser"
-                (lambda (&rest _) (browse-url "https://github.com/RVMIA/witchmacs"))
-                'default)
-               (nil
-                "Witchmacs crash course"
-                "Open Witchmacs' introduction to Emacs"
-                (lambda (&rest _) (find-file "~/.emacs.d/Witcheat.org"))
-                'default)
-               (nil
-                "Update Witchmacs"
-                "Get the latest Witchmacs update. Check out the github commits for changes!"
-                (lambda (&rest _) (update-config))
-                'default)
-               )
-              ;; line 2
-              ((,nil
-                "Open scratch buffer"
-                "Switch to the scratch buffer"
-                (lambda (&rest _) (create-scratch-buffer))
-                'default)
-               (nil
-                "Open config.org"
-                "Open Witchmacs' configuration file for easy editing"
-                (lambda (&rest _) (find-file "~/.emacs.d/config.org"))
-                'default)))))
+    (defun create-scratch-buffer ()
+      "Create a scratch buffer"
+      (interactive)
+      (switch-to-buffer (get-buffer-create "*scratch*"))
+      (lisp-interaction-mode))
+    :config
+    (dashboard-setup-startup-hook)
+    (setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
+    (setq dashboard-items '((recents . 5)))
+    (setq dashboard-banner-logo-title "W I T C H M A C S - The cutest Emacs distribution!")
+    (setq dashboard-startup-banner "~/.emacs.d/marivector1.png")
+    (setq dashboard-center-content t)
+    (setq dashboard-show-shortcuts nil)
+    (setq dashboard-set-init-info t)
+    (setq dashboard-init-info (format "%d packages loaded in %s"
+                                      (length package-activated-list) (emacs-init-time)))
+    (setq dashboard-set-footer nil)
+    (setq dashboard-set-navigator t)
+    (setq dashboard-navigator-buttons
+          `(;; line1
+            ((,nil
+              "Witchmacs on github"
+              "Open Witchmacs' github page on your browser"
+              (lambda (&rest _) (browse-url "https://github.com/RVMIA/witchmacs"))
+              'default)
+             (nil
+              "Witchmacs crash course"
+              "Open Witchmacs' introduction to Emacs"
+              (lambda (&rest _) (find-file "~/.emacs.d/Witcheat.org"))
+              'default)
+             (nil
+              "Update Witchmacs"
+              "Get the latest Witchmacs update. Check out the github commits for changes!"
+              (lambda (&rest _) (update-config))
+              'default)
+             )
+            ;; line 2
+            ((,nil
+              "Open scratch buffer"
+              "Switch to the scratch buffer"
+              (lambda (&rest _) (create-scratch-buffer))
+              'default)
+             (nil
+              "Open config.org"
+              "Open Witchmacs' configuration file for easy editing"
+              (lambda (&rest _) (find-file "~/.emacs.d/config.org"))
+              'default)))))
 #+END_SRC
 *** Notes
 If you pay close attention to the code in dashboard, you'll  notice that it uses custom functions defined under the :preface use-package block. I wrote all of those functions by looking at other people's Emacs distributions (Mainly [[https://github.com/seagle0128/.emacs.d][Centaur Emacs]]) and then experimenting and adapting them to Witchmacs. If you dig around, you'll find the same things I did - maybe even more!
@@ -363,20 +369,23 @@ When doing C-s to search, you get this very nice and neat mini-buffer that you c
 Vim keybindings in Emacs. Please note that Witchmacs has NO other evil-mode compatibility packages because I like to KISS. This might change in the future
 *** Code
 #+BEGIN_SRC emacs-lisp
-  (use-package evil
-    :ensure t
-    :defer nil
-    :init
-    (setq evil-want-keybinding nil)
-    (setq evil-want-C-u-scroll t)
-    :config
-    (evil-mode 1))
+    (use-package evil
+      :ensure t
+      :defer nil
+      :init
+      (setq evil-want-keybinding nil)
+      (setq evil-want-C-u-scroll t)
+      (setq evil-want-fine-undo t)
+      :config
+      (evil-mode 1)
+      (evil-ex-define-cmd "ls" 'ibuffer))
 
-  ;(use-package evil-collection
-  ;  :after evil
-  ;  :ensure t
-  ;  :config
-  ;  (evil-collection-init))
+    (use-package evil-collection
+      :after evil
+      :ensure t
+      :diminish evil-collection-unimpaired-mode
+      :config
+      (evil-collection-init))
 #+END_SRC
 ** Initialize =beacon=
 *** Description
@@ -568,7 +577,7 @@ Company is the autocompletion frontend that takes all the backends and gives you
 #+BEGIN_SRC emacs-lisp
   (use-package company
     :ensure t
-    :diminish (meghanada-mode company-mode irony-mode)
+    ;; :diminish (meghanada-mode company-mode irony-mode)
     :config
     (setq company-idle-delay 0)
     (setq company-minimum-prefix-length 3)
@@ -577,8 +586,10 @@ Company is the autocompletion frontend that takes all the backends and gives you
     (define-key company-active-map (kbd "C-n") #'company-select-next)
     (define-key company-active-map (kbd "C-p") #'company-select-previous)
     (define-key company-active-map (kbd "SPC") #'company-abort)
-    :hook
-    ((java-mode c-mode c++-mode) . company-mode))
+    ;; :hook
+    ;; ((java-mode c-mode c++-mode) . company-mode)
+    :init
+    (add-hook 'after-init-hook 'global-company-mode))
 #+END_SRC
 ** C & C++
 *** Description
@@ -627,7 +638,14 @@ Haskell-mode https://github.com/haskell/haskell-mode
 #+BEGIN_SRC emacs-lisp
   (use-package haskell-mode
     :ensure t
-    :bind ("<f8>" . haskell-navigate-imports))
+    :bind ("<f8>" . haskell-navigate-imports)
+    :config
+    (add-hook 'haskell-mode-hook 'eglot-ensure)
+    (add-hook 'haskell-mode-hook
+              (lambda ()
+                (set (make-local-variable 'company-backends)
+                     (append '((company-capf company-dabbrev-code))
+                             company-backends)))))
 
 #+END_SRC
 ** Rust
